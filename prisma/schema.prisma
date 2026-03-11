@@ -55,6 +55,8 @@ model Order {
 
   ordersItens OrderItem[]
 
+  observation String?
+
   date      DateTime
   total     Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now())
