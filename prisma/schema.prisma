@@ -18,13 +18,14 @@ model Category {
   id          String       @id @default(uuid())
   name        String
   imageUrl    String
+  description String @default("")
   productions Production[]
 }
 
 model Production {
   id          String  @id @default(uuid())
   name        String
-  description String
+  description String 
   imageUrl    String
   price       Decimal @db.Decimal(10, 2)
 
