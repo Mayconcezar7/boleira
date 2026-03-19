@@ -5,6 +5,10 @@ import { db } from "../_lib/prisma"
 
 
 export const getCategories =  async ()=>{
-  return  await db.category.findMany({})
+  return  await db.category.findMany({
+    orderBy:{
+      name: "asc"
+    }
+  })
 
 }

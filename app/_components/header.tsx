@@ -2,6 +2,7 @@ import { Menu } from "lucide-react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import logoImg from "../../public/logo.png";
+import Sidebar from "./sidebar";
 
 const Header = () => {
   return (
@@ -10,8 +11,8 @@ const Header = () => {
         <div className="relative h-13 w-13">
           <Image alt="logo" src={logoImg} fill className="object-cover" />
         </div>
-        <Button className="bg-transparent border-white">
-          <Menu size={20}/>
+        <Button className="bg-transparent border-white" asChild>
+          <Sidebar/>
         </Button>
       </div>
     </header>

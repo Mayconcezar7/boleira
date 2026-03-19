@@ -10,9 +10,10 @@ interface IdProps{
 export const getProductForCategory = async ({id}:IdProps) =>{
     return await db.production.findMany({
         where:{
-            categoryId: id,
-        }
-    
+            categoryId: id,    
+        },
+       
+
     })
      
 }

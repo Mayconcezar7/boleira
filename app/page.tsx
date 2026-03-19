@@ -1,56 +1,67 @@
-
 import Image from "next/image";
 import { getCategories } from "./_actions/get-categories";
 import Header from "./_components/header";
 import PanelWelcomeUser from "./_components/panelWelcomeUser";
 import Search from "./_components/search";
-import Banner from "@/public/banner.jpg"
+import Banner from "@/public/banner.jpg";
 import Title from "./_components/title";
 import CardCategory from "./_components/cardCategory";
 import CardOrder from "./_components/cardOrder";
-
-
+import { auth } from "./_lib/auth";
+import { headers } from "next/headers";
 
 export default async function Home() {
-  const categories = await getCategories()
+  const categories = await getCategories();
 
+  const session = await auth.api.getSession({
+    headers: Object.fromEntries((await headers()).entries()),
+  });
+
+  
   return (
     <>
-    <Header/>
+      <Header />
 
-    <div className="p-6 w-full">
-      <div className="mt-6">
+      <div className="w-full p-6">
+        <div>
           <PanelWelcomeUser />
-      </div>
+        </div>
 
-      <div className="mt-4 ">
-        <Search/>
-      </div>
+        <div className="mt-4">
+          <Search />
+        </div>
 
-      <div className="relative h-34 w-full mt-4">
-        <Image alt="banner" src={Banner} fill className="object-cover rounded-2xl"/>
-      </div>
+        <div className="relative mt-4 h-34 w-full">
+          <Image
+            alt="banner"
+            src={Banner}
+            fill
+            className="rounded-2xl object-cover"
+          />
+        </div>
 
-      <div className="mt-3 w-full flex gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden">
-        <CardOrder/>
-        <CardOrder/>
-        <CardOrder/>
-        <CardOrder/>
-      </div>
-
-      <div className="mt-5">
-          <Title title="CATEGORIAS"/>
-
-          <div className="w-full mt-1 flex gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden ">
-           {
-            categories.map((category)=> (
-              <CardCategory category={category} key={category.id}/>
-            ))
-           }
+        {session && (
+          <div className="mt-3 w-full">
+            <Title title="ENCOMENDAS" />
+            <div className="mt-1 flex w-full gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden">
+              <CardOrder />
+              <CardOrder />
+              <CardOrder />
+              <CardOrder />
+            </div>
           </div>
-      </div>
+        )}
 
-    </div>
+        <div className="mt-5">
+          <Title title="CATEGORIAS" />
+
+          <div className="mt-1 flex w-full gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden">
+            {categories.map((category) => (
+              <CardCategory category={category} key={category.id} />
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
 }

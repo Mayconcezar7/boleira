@@ -8,13 +8,15 @@ interface IdProps{
 }
 
 
-export const getUniqueCategory = async ({id}:IdProps) =>{
+export const getUniqueProductForCategory = async ({id}:IdProps) =>{
     return await db.category.findUnique({
         where:{
             id,
+            
         }, include:{
             productions: true 
         }
+        
     
     })
 }
