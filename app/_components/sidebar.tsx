@@ -114,7 +114,7 @@ const Sidebar = () => {
                 className="flex w-full items-center justify-start rounded-none text-amber-500"
                 variant="ghost"
               >
-                <Link href="/">{option.name}</Link>
+                <Link href={`/products?category=${option.name}`}>{option.name}</Link>
               </Button>
             </SheetClose>
           ))}

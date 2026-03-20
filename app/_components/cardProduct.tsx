@@ -1,14 +1,18 @@
+
 import { Production } from "@/generated/prisma/client";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
+import ButtonCart from "./buttonCart";
 
 interface ProductProps {
   product: Production;
 }
 
 const CardProduct = ({ product }: ProductProps) => {
+
+
   return (
     <Card className="p-1 ">
       <CardContent className="flex p-0 h-38">
@@ -17,13 +21,13 @@ const CardProduct = ({ product }: ProductProps) => {
             alt={product.name}
             src={product.imageUrl}
             fill
-            className="rounded-bl-xl rounded-tl-xl object-cover"
+            className="rounded-bl-xl rounded-tl-xl  object-cover"
           />
         </div>
 
-        <div className="flex flex-col justify-between p-2">
+        <div className="flex flex-col justify-between p-1">
           <h2 className="text-sm font-medium text-amber-900">{product.name}</h2>
-          <p className="text-xs text-amber-950">{product.description}</p>
+          <p className="text-[.73rem] text-amber-950">{product.description}</p>
           <div className="flex justify-between items-center">
             <p className="text-sm text-amber-950 font-medium">
               {new Intl.NumberFormat("pt-BR", {
@@ -31,9 +35,7 @@ const CardProduct = ({ product }: ProductProps) => {
                               currency: "BRL",
                             }).format(Number(product.price))}
             </p>
-            <Button className="bg-amber-500">
-              <ShoppingCart />
-            </Button>
+            <ButtonCart product={{...product, price: Number(product.price)}}/>
           </div>
         </div>
       </CardContent>

@@ -1,19 +1,30 @@
 "use server"
 
+
 import { db } from "../_lib/prisma";
 
-interface IdProps{
-    id: string;
+interface NameProps{
+    name?: string;
+    category?: string;    
 }
 
 
-export const getProductForCategory = async ({id}:IdProps) =>{
+export const getProducts = async ({name, category}:NameProps) =>{
     return await db.production.findMany({
         where:{
-            categoryId: id,    
-        },
+            name: name? {
+                contains: name,
+                mode: "insensitive"
+            }: undefined ,
+
+            category: category? {
+                name: {equals: category} 
+            }: undefined,
+            
+            }  
+        }
        
 
-    })
+    )
      
 }

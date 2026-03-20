@@ -1,4 +1,4 @@
-import { getProductForCategory } from "@/app/_actions/get-product";
+
 import { getUniqueProductForCategory } from "@/app/_actions/get-unique-product-category";
 import CardProduct from "@/app/_components/cardProduct";
 import Sidebar from "@/app/_components/sidebar";

@@ -9,5 +9,5 @@ export const quickSearch:QuickSearchOption[] = [
     {name: "Bolos"},
     {name: "Trufas"},
     {name: "Bolos no Pote"},
-    {name: "Torta"}
+    {name: "Tortas"}
 ]
