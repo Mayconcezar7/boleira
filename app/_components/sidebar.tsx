@@ -8,14 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/app/_components/ui/sheet";
-import { Home, LogIn, LogOut, Menu, Package } from "lucide-react";
-import { Button } from "./ui/button";
-import { Avatar, AvatarImage } from "./ui/avatar";
-import bolos from "@/public/bolos.webp";
-import Link from "next/link";
 
-import { quickSearch } from "../_constants/quickSearch";
-import Title from "./title";
 import {
   Dialog,
   DialogClose,
@@ -26,13 +19,29 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+
+import { Button } from "./ui/button";
+import { Avatar, AvatarImage } from "./ui/avatar";
+
+import { Home, LogOut, Menu, Package } from "lucide-react";
+
+import { quickSearch } from "../_constants/quickSearch";
+
+import Cart from "./cart";
 import LogInGoogle from "./logInGoogle";
+
 import { authClient } from "../_lib/auth-client";
+
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+import { useCart } from "../_context/CartContext";
 
 const Sidebar = () => {
   const { data: session } = authClient.useSession();
   const router = useRouter();
+
+  const { cart } = useCart();
 
   async function handreSignOut() {
     await authClient.signOut({
@@ -63,10 +72,10 @@ const Sidebar = () => {
               <AvatarImage src={`${session.user.image}`} />
             </Avatar>
             <div className="w-full">
-              <h2 className="truncate text-base font-bold w-[90%]">
+              <h2 className="w-[90%] truncate text-base font-bold">
                 {session.user.name}
               </h2>
-              <p className="truncate text-xs w-[90%]">{session.user.email}</p>
+              <p className="w-[90%] truncate text-xs">{session.user.email}</p>
             </div>
           </div>
         ) : (
@@ -89,21 +98,23 @@ const Sidebar = () => {
             </Button>
           </SheetClose>
 
-          {
-            session &&
-            <SheetClose className="w-full">
-            <Button
-              asChild
-              className="flex w-full items-center justify-start rounded-none"
-              variant="ghost"
-            >
-              <Link href="/orders">
-                <Package /> Encomendas
-              </Link>
-            </Button>
+          <SheetClose asChild>
+            <Cart />
           </SheetClose>
-          }
-          
+
+          {session && (
+            <SheetClose className="w-full">
+              <Button
+                asChild
+                className="flex w-full items-center justify-start rounded-none"
+                variant="ghost"
+              >
+                <Link href="/orders">
+                  <Package /> Histórico de Encomendas
+                </Link>
+              </Button>
+            </SheetClose>
+          )}
         </div>
         <div className="w-full border-b border-b-orange-900 px-3 pb-5">
           <h2 className="mb-3 text-xs uppercase">Pesquisa rapida</h2>
@@ -114,46 +125,46 @@ const Sidebar = () => {
                 className="flex w-full items-center justify-start rounded-none text-amber-500"
                 variant="ghost"
               >
-                <Link href={`/products?category=${option.name}`}>{option.name}</Link>
+                <Link href={`/products?category=${option.name}`}>
+                  {option.name}
+                </Link>
               </Button>
             </SheetClose>
           ))}
         </div>
         <div className="mt-4 w-full px-5">
-          {
-            session&& 
+          {session && (
             <Dialog>
-            <DialogTrigger className="w-full" asChild>
-              <Button className="rounded-sx w-full border-amber-50 bg-transparent">
-                <LogOut />
-                sair
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="w-[90%] bg-amber-900 text-white">
-              <DialogHeader>
-                <DialogTitle className="text-center">Sair</DialogTitle>
-              </DialogHeader>
-              <DialogDescription className="text-center font-normal text-white">
-                Deseja mesmo sair da plataforma?
-              </DialogDescription>
+              <DialogTrigger className="w-full" asChild>
+                <Button className="rounded-sx w-full border-amber-50 bg-transparent">
+                  <LogOut />
+                  sair
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[90%] bg-amber-900 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-center">Sair</DialogTitle>
+                </DialogHeader>
+                <DialogDescription className="text-center font-normal text-white">
+                  Deseja mesmo sair da plataforma?
+                </DialogDescription>
 
-              <DialogFooter className="flex flex-row items-center justify-center border-none bg-amber-900">
-                <DialogClose asChild>
-                  <Button className="w-[50%] bg-transparent">Cancelar</Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button
-                    className="w-[50%] bg-amber-950"
-                    onClick={handreSignOut}
-                  >
-                    Sair
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          }
-          
+                <DialogFooter className="flex flex-row items-center justify-center border-none bg-amber-900">
+                  <DialogClose asChild>
+                    <Button className="w-[50%] bg-transparent">Cancelar</Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button
+                      className="w-[50%] bg-amber-950"
+                      onClick={handreSignOut}
+                    >
+                      Sair
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </SheetContent>
     </Sheet>

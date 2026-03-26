@@ -1,55 +1,88 @@
-"use client"
+"use client";
 
-import { Production } from "@/generated/prisma/browser";
-import { createContext, ReactNode, useState, useContext } from "react";
+
+import { createContext, ReactNode, useState, useContext, Dispatch, SetStateAction } from "react";
 
 export interface CartItem {
- name: string;
-    price: number;
-    imageUrl: string;
-    id: string;
-    description: string;
-    categoryId: string;
-     
+  name: string;
+  price: number;
+  imageUrl: string;
+  id: string;
+  description: string;
+  categoryId: string;
+  quantity: number;
+}
+ 
+
+interface CartContextData {
+  cart: CartItem[];
+  setCart: Dispatch<SetStateAction<CartItem[]>>;
+  addQuantityCart:({product, typeOp}: ProductCartProps) => void;
+  removeProductCart:(product: CartItem) => void;
+  cartTotal:number;
 }
 
-interface CartContextData{
-    addCart: (product: any) => void;
+interface ProductCartProps {
+  product: CartItem;
+  typeOp: string
 }
 
-export const CartContext = createContext<CartContextData | undefined>(undefined)
+export const CartContext = createContext<CartContextData | undefined>(
+  undefined,
+);
 
-
-export default function CartProvider({children}:{children:ReactNode}) {
-
-
-    const [cart , setCart] = useState<Production[]>([])
-
-
-    function addCart(product:Production) {
-
-        setCart(prev=> [...prev , product])
+export default function CartProvider({ children }: { children: ReactNode }) {
+  const [cart, setCart] = useState<CartItem[]>([]);
+ 
+  function addQuantityCart({product, typeOp}:ProductCartProps) {
+    setCart((prev)=>
+      prev.map((item)=>{
         
-    }
+        if (item.id === product.id) {
 
-    console.log(cart);
+          if (typeOp === "add-quantity") {
+           
+            return {...item, quantity: item.quantity+1}
+            
+          }
+
+          if (typeOp === "remove-quantity") {
+
+            if (item.quantity< 2) {
+              return null
+            }
+
+            return{...item, quantity: item.quantity - 1}
+            
+          }
+          
+        }
+
+        return item;
+      }
+    ).filter(Boolean) as CartItem[]
     
-
-    return(
-
-        <CartContext.Provider value={{addCart}}>
-            {children}
-        </CartContext.Provider>
     )
+  }
+
+  function removeProductCart(product:CartItem) {
+    setCart((prev)=>
+      prev.filter(item => item.id !== product.id)
+    )
+  }
+
+ const cartTotal = cart.reduce((sum, product)=> sum+ product.price * product.quantity ,0)
+ 
+  return (
+    <CartContext.Provider value={{  cart, setCart ,addQuantityCart, removeProductCart, cartTotal}}>{children}</CartContext.Provider>
+  );
 }
 
 export const useCart = () => {
   const context = useContext(CartContext);
-  
-  // Se o contexto for undefined, significa que você esqueceu o <CartProvider> no layout
+
   if (!context) {
     throw new Error("useCart deve ser usado dentro de um CartProvider");
   }
-  
   return context;
 };

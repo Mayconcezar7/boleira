@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import Footer from "./_components/footer";
+import CartProvider from "./_context/CartContext";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300","400","500","600","700"], // Escolha os pesos que vai usar
+  weight: ["300", "400", "500", "600", "700"], // Escolha os pesos que vai usar
 });
-
 
 export const metadata: Metadata = {
   title: "Confeitaria",
@@ -23,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.variable} antialiased`}>
-        <div className="flex flex-col  min-h-screen">
-          <div className="flex-1">{children}</div>
-          <Footer/>
-        </div>
+        <CartProvider>
+          <div className="flex min-h-screen flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
+        </CartProvider>
       </body>
     </html>
   );

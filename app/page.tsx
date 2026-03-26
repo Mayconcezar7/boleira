@@ -9,6 +9,7 @@ import CardCategory from "./_components/cardCategory";
 import CardOrder from "./_components/cardOrder";
 import { auth } from "./_lib/auth";
 import { headers } from "next/headers";
+import { getOrdersConfirmed } from "./_actions/get-orders";
 
 export default async function Home() {
   const categories = await getCategories();
@@ -16,6 +17,14 @@ export default async function Home() {
   const session = await auth.api.getSession({
     headers: Object.fromEntries((await headers()).entries()),
   });
+
+ 
+  
+  let confirmed:any[] = []
+
+  if (session?.user.id) {
+    confirmed = await getOrdersConfirmed({id: session?.user.id})
+  }
 
   
   return (
@@ -44,10 +53,11 @@ export default async function Home() {
           <div className="mt-3 w-full">
             <Title title="ENCOMENDAS" />
             <div className="mt-1 flex w-full gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden">
-              <CardOrder />
-              <CardOrder />
-              <CardOrder />
-              <CardOrder />
+             {
+              confirmed.map((order)=>(
+                <CardOrder order={order} key={order.id}/>
+              ))
+             }
             </div>
           </div>
         )}
