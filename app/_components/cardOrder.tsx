@@ -99,6 +99,19 @@ const CardOrder = ({ order }: OrderProps) => {
           />
         </div>
 
+        <div className="border-b border-b-orange-900 pb-6">
+          {order.observation && (
+            <div className="mt-4 px-4">
+              <p className="text-base font-semibold text-white uppercase">
+                Observação
+              </p>
+              <p className="text-sm font-medium text-white italic mt-3">
+                "sem chocolate"
+              </p>
+            </div>
+          )}
+        </div>
+
         <div className="mt-4 px-4">
           <h2 className="text-lg capitalize">telefone</h2>
 
@@ -111,7 +124,13 @@ const CardOrder = ({ order }: OrderProps) => {
 
         <div className="my-5 flex w-full items-center justify-center gap-[4%] px-4">
           <SheetClose asChild>
-            <Button className={ isPastOrder? `min-w-[100%] rounded-[8px] border-white bg-transparent`:`min-w-[48%] rounded-[8px] border-white bg-transparent`}>
+            <Button
+              className={
+                isPastOrder
+                  ? `min-w-full rounded-[8px] border-white bg-transparent`
+                  : `min-w-[48%] rounded-[8px] border-white bg-transparent`
+              }
+            >
               Voltar
             </Button>
           </SheetClose>

@@ -23,9 +23,11 @@ import { addDays, set } from "date-fns";
 import { Textarea } from "./ui/textarea";
 import { postCreateOders } from "../_actions/post-createOrders";
 import { Input } from "./ui/input";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const Cart = () => {
+  const router = useRouter()
   const { cart, setCart, cartTotal } = useCart();
 
   const { data: session } = authClient.useSession();
@@ -66,6 +68,12 @@ const Cart = () => {
       });
 
       setCart([]);
+
+      router.push("/orders")
+
+      toast.success("Pedido realizado com sucesso!" ,{
+        className: "!bg-green-900 !text-white !text-base",
+      })
     } catch (error) {
       console.log(error, "esse foi o erro");
     }

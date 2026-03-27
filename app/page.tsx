@@ -51,7 +51,7 @@ export default async function Home() {
 
         {session && (
           <div className="mt-3 w-full">
-            <Title title="ENCOMENDAS" />
+            {confirmed.length<0 && <Title title="ENCOMENDAS" />}
             <div className="mt-1 flex w-full gap-4 overflow-x-scroll [&::-webkit-scrolbar]:hidden">
              {
               confirmed.map((order)=>(

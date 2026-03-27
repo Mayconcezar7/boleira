@@ -2,6 +2,7 @@
 
 
 import { createContext, ReactNode, useState, useContext, Dispatch, SetStateAction } from "react";
+import { toast } from "sonner";
 
 export interface CartItem {
   name: string;
@@ -69,6 +70,10 @@ export default function CartProvider({ children }: { children: ReactNode }) {
     setCart((prev)=>
       prev.filter(item => item.id !== product.id)
     )
+
+    toast.info("Item removido do carrinho!" ,{
+        className: "!bg-amber-800 !text-white !text-base",
+      })
   }
 
  const cartTotal = cart.reduce((sum, product)=> sum+ product.price * product.quantity ,0)

@@ -36,6 +36,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import { useCart } from "../_context/CartContext";
+import { toast } from "sonner";
 
 const Sidebar = () => {
   const { data: session } = authClient.useSession();
@@ -52,12 +53,16 @@ const Sidebar = () => {
         },
       },
     });
+    
+    toast.success("Você foi desconectado com Sucesso!" ,{
+        className: "!bg-green-900 !text-white !text-base"
+      })
   }
 
   return (
-    <Sheet>
+    <Sheet >
       <SheetTrigger asChild>
-        <Button className="border-amber-50 bg-amber-950">
+        <Button className="border-amber-50 bg-amber-950" >
           <Menu />
         </Button>
       </SheetTrigger>
@@ -133,38 +138,42 @@ const Sidebar = () => {
           ))}
         </div>
         <div className="mt-4 w-full px-5">
-          {session && (
-            <Dialog>
-              <DialogTrigger className="w-full" asChild>
-                <Button className="rounded-sx w-full border-amber-50 bg-transparent">
-                  <LogOut />
-                  sair
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="w-[90%] bg-amber-900 text-white">
-                <DialogHeader>
-                  <DialogTitle className="text-center">Sair</DialogTitle>
-                </DialogHeader>
-                <DialogDescription className="text-center font-normal text-white">
-                  Deseja mesmo sair da plataforma?
-                </DialogDescription>
+         
+            {session && (
+              <Dialog>
+                <DialogTrigger className="w-full" asChild>
+                  <Button className="rounded-sx w-full border-amber-50 bg-transparent" >
+                    <LogOut />
+                    sair
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[90%] bg-amber-900 text-white">
+                  <DialogHeader>
+                    <DialogTitle className="text-center">Sair</DialogTitle>
+                  </DialogHeader>
+                  <DialogDescription className="text-center font-normal text-white">
+                    Deseja mesmo sair da plataforma?
+                  </DialogDescription>
 
-                <DialogFooter className="flex flex-row items-center justify-center border-none bg-amber-900">
-                  <DialogClose asChild>
-                    <Button className="w-[50%] bg-transparent">Cancelar</Button>
-                  </DialogClose>
-                  <DialogClose asChild>
-                    <Button
-                      className="w-[50%] bg-amber-950"
-                      onClick={handreSignOut}
-                    >
-                      Sair
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
+                  <DialogFooter className="flex flex-row items-center justify-center border-none bg-amber-900">
+                    <DialogClose asChild>
+                      <Button className="w-[50%] bg-transparent">
+                        Cancelar
+                      </Button>
+                    </DialogClose>
+                    <DialogClose asChild>
+                      <Button
+                        className="w-[50%] bg-amber-950"
+                        onClick={handreSignOut}
+                      >
+                        Sair
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+        
         </div>
       </SheetContent>
     </Sheet>

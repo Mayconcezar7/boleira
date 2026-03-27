@@ -3,14 +3,23 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import logoGoogle from "@/public/Google.svg"
 import { authClient } from "../_lib/auth-client";
+import { toast } from "sonner";
 
 const ConnectGooogle = () => {
     async function handleSignInGoogle() {
+      try{
+
+        await authClient.signIn.social({
+           provider: "google",
+           callbackURL: "/"
+          })
+
+         
+
+      }catch(error){
+          toast.error("Erro ao Efeituar o Login!")
+      }
     
-       await authClient.signIn.social({
-          provider: "google",
-          callbackURL: "/"
-        })
     
     
       }

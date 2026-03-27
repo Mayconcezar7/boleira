@@ -3,6 +3,8 @@
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../_context/CartContext";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface ProductProps {
   product: {
@@ -17,6 +19,7 @@ interface ProductProps {
 
 const ButtonCart = ({ product }: ProductProps) => {
   const { setCart ,cart } = useCart();
+  const router = useRouter()
 
   const p = {
    name: product.name,
@@ -32,11 +35,17 @@ const ButtonCart = ({ product }: ProductProps) => {
     const existProductCart = cart.find(item => item.id === p.id)
 
     if (existProductCart) {
-      return alert("ja esta no seu carrinho")
+      return toast.info("Este item já está no seu carrinho!" ,{
+        className: "!bg-amber-800 !text-white !text-base"
+      })
       
     }else{
 
       setCart((prev) => [...prev, p]);
+
+      toast.success("Item adicionado ao carrinho!" ,{
+        className: "!bg-green-900 !text-white !text-base" 
+      })
     }
   }
   return (

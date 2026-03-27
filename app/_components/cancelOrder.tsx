@@ -11,6 +11,7 @@ import {
 import { Button } from "./ui/button";
 import { deleteOrder } from "../_actions/delete-order";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface IdOrderProps {
   id: string;
@@ -23,12 +24,14 @@ const CancelOrder = ({ id }: IdOrderProps) => {
     try {
       await deleteOrder({ id });
 
-      alert("certo");
+      toast.success("Pedido cancelado com sucesso!" ,{
+        className: "!bg-red-900 !text-white !text-base"
+      })
       router.refresh()
       
     } catch (error) {
       console.log(error);
-      alert("error")
+      
     }
   }
 
