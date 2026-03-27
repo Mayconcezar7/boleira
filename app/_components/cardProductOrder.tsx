@@ -31,8 +31,9 @@ const CardProductOrder = ({product}:ProductProps) => {
         <div className="flex flex-col justify-between p-1">
           <h2 className="text-sm font-medium text-amber-900">{product.name}</h2>
           
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-amber-950 font-medium">
+          <div className="flex flex-col justify-between ">
+            <p className='text-sm text-amber-950 font-medium'>Qtd: {product.quantity}</p>
+            <p className="text-sm text-amber-950 font-bold">
               {formatPrice(Number(product.price))}
             </p>
           </div>

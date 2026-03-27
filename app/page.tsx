@@ -10,6 +10,9 @@ import CardOrder from "./_components/cardOrder";
 import { auth } from "./_lib/auth";
 import { headers } from "next/headers";
 import { getOrdersConfirmed } from "./_actions/get-orders";
+import { quickSearch } from "./_constants/quickSearch";
+import { Button } from "./_components/ui/button";
+import Link from "next/link";
 
 export default async function Home() {
   const categories = await getCategories();
@@ -36,8 +39,18 @@ export default async function Home() {
           <PanelWelcomeUser />
         </div>
 
-        <div className="mt-4">
+        <div className="my-4">
           <Search />
+        </div>
+
+        <div className="flex gap-3 overflow-x-scroll [&::-webkit-scrolbar]:hidden mt-3">
+          {
+            quickSearch.map((option)=>(
+              <Button className="bg-amber-950 text-white uppercase" asChild key={option.name} >
+                <Link href={`/products?category=${option.name}`}>{option.name}</Link>
+              </Button>
+            ))
+          }
         </div>
 
         <div className="relative mt-4 h-34 w-full">
